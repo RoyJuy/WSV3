@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.swagger.mybatis.dao.LocationMapper">
+  <resultMap id="BaseResultMap" type="io.swagger.mybatis.Location">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="coordinates" jdbcType="VARCHAR" property="coordinates" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="open_time" jdbcType="VARCHAR" property="openTime" />
+    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
+    <result column="tags" jdbcType="VARCHAR" property="tags" />
+    <result column="store_account_id" jdbcType="INTEGER" property="storeAccountId" />
+    <result column="county" jdbcType="VARCHAR" property="county" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="district" jdbcType="VARCHAR" property="district" />
+    <result column="accurate" jdbcType="INTEGER" property="accurate" />
+    <result column="trust_rate" jdbcType="INTEGER" property="trustRate" />
+    <result column="address_type" jdbcType="VARCHAR" property="addressType" />
+    <result column="emergency" jdbcType="VARCHAR" property="emergency" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="market_info" jdbcType="VARCHAR" property="marketInfo" />
+    <result column="ad_image" jdbcType="VARCHAR" property="adImage" />
+    <result column="signature" jdbcType="VARCHAR" property="signature" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="updated" jdbcType="TIMESTAMP" property="updated" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, address, coordinates, name, open_time, phone_number, tags, store_account_id, 
+    county, city, district, accurate, trust_rate, address_type, emergency, remark, market_info, 
+    ad_image, signature, created, updated, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from location
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from location
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="io.swagger.mybatis.Location">
+    insert into location (id, address, coordinates, 
+      name, open_time, phone_number, 
+      tags, store_account_id, county, 
+      city, district, accurate, 
+      trust_rate, address_type, emergency, 
+      remark, market_info, ad_image, 
+      signature, created, updated, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{coordinates,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{openTime,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, 
+      #{tags,jdbcType=VARCHAR}, #{storeAccountId,jdbcType=INTEGER}, #{county,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, #{accurate,jdbcType=INTEGER}, 
+      #{trustRate,jdbcType=INTEGER}, #{addressType,jdbcType=VARCHAR}, #{emergency,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{marketInfo,jdbcType=VARCHAR}, #{adImage,jdbcType=VARCHAR}, 
+      #{signature,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="io.swagger.mybatis.Location">
+    insert into location
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="coordinates != null">
+        coordinates,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="openTime != null">
+        open_time,
+      </if>
+      <if test="phoneNumber != null">
+        phone_number,
+      </if>
+      <if test="tags != null">
+        tags,
+      </if>
+      <if test="storeAccountId != null">
+        store_account_id,
+      </if>
+      <if test="county != null">
+        county,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="district != null">
+        district,
+      </if>
+      <if test="accurate != null">
+        accurate,
+      </if>
+      <if test="trustRate != null">
+        trust_rate,
+      </if>
+      <if test="addressType != null">
+        address_type,
+      </if>
+      <if test="emergency != null">
+        emergency,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="marketInfo != null">
+        market_info,
+      </if>
+      <if test="adImage != null">
+        ad_image,
+      </if>
+      <if test="signature != null">
+        signature,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="coordinates != null">
+        #{coordinates,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="openTime != null">
+        #{openTime,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null">
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null">
+        #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="storeAccountId != null">
+        #{storeAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="county != null">
+        #{county,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="accurate != null">
+        #{accurate,jdbcType=INTEGER},
+      </if>
+      <if test="trustRate != null">
+        #{trustRate,jdbcType=INTEGER},
+      </if>
+      <if test="addressType != null">
+        #{addressType,jdbcType=VARCHAR},
+      </if>
+      <if test="emergency != null">
+        #{emergency,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="marketInfo != null">
+        #{marketInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="adImage != null">
+        #{adImage,jdbcType=VARCHAR},
+      </if>
+      <if test="signature != null">
+        #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="io.swagger.mybatis.Location">
+    update location
+    <set>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="coordinates != null">
+        coordinates = #{coordinates,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="openTime != null">
+        open_time = #{openTime,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null">
+        phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null">
+        tags = #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="storeAccountId != null">
+        store_account_id = #{storeAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="county != null">
+        county = #{county,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="accurate != null">
+        accurate = #{accurate,jdbcType=INTEGER},
+      </if>
+      <if test="trustRate != null">
+        trust_rate = #{trustRate,jdbcType=INTEGER},
+      </if>
+      <if test="addressType != null">
+        address_type = #{addressType,jdbcType=VARCHAR},
+      </if>
+      <if test="emergency != null">
+        emergency = #{emergency,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="marketInfo != null">
+        market_info = #{marketInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="adImage != null">
+        ad_image = #{adImage,jdbcType=VARCHAR},
+      </if>
+      <if test="signature != null">
+        signature = #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="io.swagger.mybatis.Location">
+    update location
+    set address = #{address,jdbcType=VARCHAR},
+      coordinates = #{coordinates,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      open_time = #{openTime,jdbcType=VARCHAR},
+      phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      tags = #{tags,jdbcType=VARCHAR},
+      store_account_id = #{storeAccountId,jdbcType=INTEGER},
+      county = #{county,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR},
+      accurate = #{accurate,jdbcType=INTEGER},
+      trust_rate = #{trustRate,jdbcType=INTEGER},
+      address_type = #{addressType,jdbcType=VARCHAR},
+      emergency = #{emergency,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      market_info = #{marketInfo,jdbcType=VARCHAR},
+      ad_image = #{adImage,jdbcType=VARCHAR},
+      signature = #{signature,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

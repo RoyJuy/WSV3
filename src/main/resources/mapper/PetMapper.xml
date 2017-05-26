@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.swagger.mybatis.dao.PetMapper">
+  <resultMap id="BaseResultMap" type="io.swagger.mybatis.Pet">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="updated" jdbcType="TIMESTAMP" property="updated" />
+    <result column="avatar_path" jdbcType="VARCHAR" property="avatarPath" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="subtype" jdbcType="VARCHAR" property="subtype" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="account_id" jdbcType="INTEGER" property="accountId" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, created, updated, avatar_path, birthday, gender, nickname, subtype, type, account_id, 
+    status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pet
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pet
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="io.swagger.mybatis.Pet">
+    insert into pet (id, created, updated, 
+      avatar_path, birthday, gender, 
+      nickname, subtype, type, 
+      account_id, status)
+    values (#{id,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, 
+      #{avatarPath,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, #{gender,jdbcType=VARCHAR}, 
+      #{nickname,jdbcType=VARCHAR}, #{subtype,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{accountId,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="io.swagger.mybatis.Pet">
+    insert into pet
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="avatarPath != null">
+        avatar_path,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="subtype != null">
+        subtype,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="avatarPath != null">
+        #{avatarPath,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="subtype != null">
+        #{subtype,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null">
+        #{accountId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="io.swagger.mybatis.Pet">
+    update pet
+    <set>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="avatarPath != null">
+        avatar_path = #{avatarPath,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="subtype != null">
+        subtype = #{subtype,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null">
+        account_id = #{accountId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="io.swagger.mybatis.Pet">
+    update pet
+    set created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      avatar_path = #{avatarPath,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      gender = #{gender,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      subtype = #{subtype,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      account_id = #{accountId,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.swagger.mybatis.dao.ReviewMapper">
+  <resultMap id="BaseResultMap" type="io.swagger.mybatis.Review">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="updated" jdbcType="TIMESTAMP" property="updated" />
+    <result column="image1" jdbcType="VARCHAR" property="image1" />
+    <result column="image2" jdbcType="VARCHAR" property="image2" />
+    <result column="image3" jdbcType="VARCHAR" property="image3" />
+    <result column="rating" jdbcType="REAL" property="rating" />
+    <result column="review" jdbcType="VARCHAR" property="review" />
+    <result column="tags" jdbcType="VARCHAR" property="tags" />
+    <result column="account_id" jdbcType="INTEGER" property="accountId" />
+    <result column="location_id" jdbcType="INTEGER" property="locationId" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, created, updated, image1, image2, image3, rating, review, tags, account_id, location_id, 
+    status
+  </sql>
+
+  <select id="selectByAccountId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM review
+    WHERE account_id = #{accountId, jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from review
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from review
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="io.swagger.mybatis.Review">
+    insert into review (id, created, updated, 
+      image1, image2, image3, 
+      rating, review, tags, 
+      account_id, location_id, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, 
+      #{image1,jdbcType=VARCHAR}, #{image2,jdbcType=VARCHAR}, #{image3,jdbcType=VARCHAR}, 
+      #{rating,jdbcType=REAL}, #{review,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, 
+      #{accountId,jdbcType=INTEGER}, #{locationId,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="io.swagger.mybatis.Review">
+    insert into review
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="image1 != null">
+        image1,
+      </if>
+      <if test="image2 != null">
+        image2,
+      </if>
+      <if test="image3 != null">
+        image3,
+      </if>
+      <if test="rating != null">
+        rating,
+      </if>
+      <if test="review != null">
+        review,
+      </if>
+      <if test="tags != null">
+        tags,
+      </if>
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="locationId != null">
+        location_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="image1 != null">
+        #{image1,jdbcType=VARCHAR},
+      </if>
+      <if test="image2 != null">
+        #{image2,jdbcType=VARCHAR},
+      </if>
+      <if test="image3 != null">
+        #{image3,jdbcType=VARCHAR},
+      </if>
+      <if test="rating != null">
+        #{rating,jdbcType=REAL},
+      </if>
+      <if test="review != null">
+        #{review,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null">
+        #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null">
+        #{accountId,jdbcType=INTEGER},
+      </if>
+      <if test="locationId != null">
+        #{locationId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="io.swagger.mybatis.Review">
+    update review
+    <set>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="image1 != null">
+        image1 = #{image1,jdbcType=VARCHAR},
+      </if>
+      <if test="image2 != null">
+        image2 = #{image2,jdbcType=VARCHAR},
+      </if>
+      <if test="image3 != null">
+        image3 = #{image3,jdbcType=VARCHAR},
+      </if>
+      <if test="rating != null">
+        rating = #{rating,jdbcType=REAL},
+      </if>
+      <if test="review != null">
+        review = #{review,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null">
+        tags = #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null">
+        account_id = #{accountId,jdbcType=INTEGER},
+      </if>
+      <if test="locationId != null">
+        location_id = #{locationId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="io.swagger.mybatis.Review">
+    update review
+    set created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      image1 = #{image1,jdbcType=VARCHAR},
+      image2 = #{image2,jdbcType=VARCHAR},
+      image3 = #{image3,jdbcType=VARCHAR},
+      rating = #{rating,jdbcType=REAL},
+      review = #{review,jdbcType=VARCHAR},
+      tags = #{tags,jdbcType=VARCHAR},
+      account_id = #{accountId,jdbcType=INTEGER},
+      location_id = #{locationId,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

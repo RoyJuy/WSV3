@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.swagger.mybatis.dao.PostMapper">
+  <resultMap id="BaseResultMap" type="io.swagger.mybatis.Post">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="updated" jdbcType="TIMESTAMP" property="updated" />
+    <result column="image_path" jdbcType="VARCHAR" property="imagePath" />
+    <result column="account_id" jdbcType="INTEGER" property="accountId" />
+    <result column="review_id" jdbcType="INTEGER" property="reviewId" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="io.swagger.mybatis.Post">
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
+    <association property="account" column="account_id" select="io.swagger.mybatis.dao.AccountMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, created, updated, image_path, account_id, review_id, status
+  </sql>
+  <sql id="Blob_Column_List">
+    description
+  </sql>
+
+  <!--<select id="getAccount" parameterType="java.lang.Integer" resultType="io.swagger.mybatis.Account">-->
+      <!--SELECT * FROM account WHERE id = #{account_id}-->
+  <!--</select>-->
+
+  <select id="selectByReviewId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from post
+    where review_id = #{reviewId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from post
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from post
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="io.swagger.mybatis.Post">
+    insert into post (id, created, updated, 
+      image_path, account_id, review_id, 
+      status, description)
+    values (#{id,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, 
+      #{imagePath,jdbcType=VARCHAR}, #{accountId,jdbcType=INTEGER}, #{reviewId,jdbcType=INTEGER}, 
+      #{status,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="io.swagger.mybatis.Post">
+    insert into post
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="imagePath != null">
+        image_path,
+      </if>
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="reviewId != null">
+        review_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imagePath != null">
+        #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null">
+        #{accountId,jdbcType=INTEGER},
+      </if>
+      <if test="reviewId != null">
+        #{reviewId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="io.swagger.mybatis.Post">
+    update post
+    <set>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imagePath != null">
+        image_path = #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null">
+        account_id = #{accountId,jdbcType=INTEGER},
+      </if>
+      <if test="reviewId != null">
+        review_id = #{reviewId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="io.swagger.mybatis.Post">
+    update post
+    set created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      image_path = #{imagePath,jdbcType=VARCHAR},
+      account_id = #{accountId,jdbcType=INTEGER},
+      review_id = #{reviewId,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="io.swagger.mybatis.Post">
+    update post
+    set created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      image_path = #{imagePath,jdbcType=VARCHAR},
+      account_id = #{accountId,jdbcType=INTEGER},
+      review_id = #{reviewId,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

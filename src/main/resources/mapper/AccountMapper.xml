@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.swagger.mybatis.dao.AccountMapper">
+  <resultMap id="BaseResultMap" type="io.swagger.mybatis.Account">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="account_name" jdbcType="VARCHAR" property="accountName" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="sms_confirm_code" jdbcType="VARCHAR" property="smsConfirmCode" />
+    <result column="sms_confirm_code_expiry_date" jdbcType="TIMESTAMP" property="smsConfirmCodeExpiryDate" />
+    <result column="sms_confirmed" jdbcType="BIT" property="smsConfirmed" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="user_token" jdbcType="VARCHAR" property="userToken" />
+    <result column="avatar_path" jdbcType="VARCHAR" property="avatarPath" />
+    <result column="password_reset" jdbcType="BIT" property="passwordReset" />
+    <result column="password_reset_code" jdbcType="VARCHAR" property="passwordResetCode" />
+    <result column="password_reset_code_expiry_date" jdbcType="TIMESTAMP" property="passwordResetCodeExpiryDate" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="signature" jdbcType="VARCHAR" property="signature" />
+    <result column="degree" jdbcType="VARCHAR" property="degree" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="io.swagger.mybatis.Account">
+    <result column="password_x" jdbcType="LONGVARCHAR" property="passwordX" />
+    <association property="postCount" javaType="java.lang.Integer" column="id" select="getPostCount"></association>
+    <association property="likedPostCount" javaType="java.lang.Integer" column="id" select="getLikedPostCount"></association>
+    <association property="followingCount" javaType="java.lang.Integer" column="id" select="getFollowingCount"></association>
+    <association property="followerCount" javaType="java.lang.Integer" column="id" select="getFollowerCount"></association>
+    <collection property="pets" ofType="io.swagger.mybatis.Pet" column="id" select="getPets"></collection>
+
+  </resultMap>
+
+  <select id="getLikedPostCount" parameterType="INTEGER" resultType="java.lang.Integer">
+    SELECT count(id) FROM likePost WHERE account_id = #{id}
+  </select>
+
+  <select id="getFollowingCount" parameterType="INTEGER" resultType="java.lang.Integer">
+    SELECT count(id) FROM follow WHERE account_id = #{id}
+  </select>
+
+  <select id="getFollowerCount" parameterType="INTEGER" resultType="java.lang.Integer">
+    SELECT count(id) FROM follow WHERE target_account_id = #{id}
+  </select>
+
+  <select id="getPostCount" parameterType="INTEGER" resultType="java.lang.Integer">
+      SELECT count(id) FROM post WHERE account_id = #{id}
+  </select>
+
+  <sql id="Base_Column_List">
+    id, account_name, address, nickname, sms_confirm_code, sms_confirm_code_expiry_date, 
+    sms_confirmed, status, user_token, avatar_path, password_reset, password_reset_code, 
+    password_reset_code_expiry_date, type, signature, degree
+  </sql>
+  <sql id="Blob_Column_List">
+    password_x
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from account
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--<resultMap id="ResultMapWithBLOBs" type="io.swagger.mybatis.Account">-->
+    <!--<collection property="pets" ofType="io.swagger.mybatis.Pet" column="id" select="getPets"></collection>-->
+  <!--</resultMap>-->
+  <select id="getPets" parameterType="Integer" resultType="io.swagger.mybatis.Pet">
+    SELECT * FROM pet WHERE account_id = #{id}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from account
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="io.swagger.mybatis.Account">
+    insert into account (id, account_name, address, 
+      nickname, sms_confirm_code, sms_confirm_code_expiry_date, 
+      sms_confirmed, status, user_token, 
+      avatar_path, password_reset, password_reset_code, 
+      password_reset_code_expiry_date, type, signature, 
+      degree, password_x)
+    values (#{id,jdbcType=INTEGER}, #{accountName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{nickname,jdbcType=VARCHAR}, #{smsConfirmCode,jdbcType=VARCHAR}, #{smsConfirmCodeExpiryDate,jdbcType=TIMESTAMP}, 
+      #{smsConfirmed,jdbcType=BIT}, #{status,jdbcType=VARCHAR}, #{userToken,jdbcType=VARCHAR}, 
+      #{avatarPath,jdbcType=VARCHAR}, #{passwordReset,jdbcType=BIT}, #{passwordResetCode,jdbcType=VARCHAR}, 
+      #{passwordResetCodeExpiryDate,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}, #{signature,jdbcType=VARCHAR}, 
+      #{degree,jdbcType=VARCHAR}, #{passwordX,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="io.swagger.mybatis.Account">
+    insert into account
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="accountName != null">
+        account_name,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="smsConfirmCode != null">
+        sms_confirm_code,
+      </if>
+      <if test="smsConfirmCodeExpiryDate != null">
+        sms_confirm_code_expiry_date,
+      </if>
+      <if test="smsConfirmed != null">
+        sms_confirmed,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="userToken != null">
+        user_token,
+      </if>
+      <if test="avatarPath != null">
+        avatar_path,
+      </if>
+      <if test="passwordReset != null">
+        password_reset,
+      </if>
+      <if test="passwordResetCode != null">
+        password_reset_code,
+      </if>
+      <if test="passwordResetCodeExpiryDate != null">
+        password_reset_code_expiry_date,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="signature != null">
+        signature,
+      </if>
+      <if test="degree != null">
+        degree,
+      </if>
+      <if test="passwordX != null">
+        password_x,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="accountName != null">
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="smsConfirmCode != null">
+        #{smsConfirmCode,jdbcType=VARCHAR},
+      </if>
+      <if test="smsConfirmCodeExpiryDate != null">
+        #{smsConfirmCodeExpiryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="smsConfirmed != null">
+        #{smsConfirmed,jdbcType=BIT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="userToken != null">
+        #{userToken,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarPath != null">
+        #{avatarPath,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordReset != null">
+        #{passwordReset,jdbcType=BIT},
+      </if>
+      <if test="passwordResetCode != null">
+        #{passwordResetCode,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordResetCodeExpiryDate != null">
+        #{passwordResetCodeExpiryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="signature != null">
+        #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null">
+        #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordX != null">
+        #{passwordX,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="io.swagger.mybatis.Account">
+    update account
+    <set>
+      <if test="accountName != null">
+        account_name = #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="smsConfirmCode != null">
+        sms_confirm_code = #{smsConfirmCode,jdbcType=VARCHAR},
+      </if>
+      <if test="smsConfirmCodeExpiryDate != null">
+        sms_confirm_code_expiry_date = #{smsConfirmCodeExpiryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="smsConfirmed != null">
+        sms_confirmed = #{smsConfirmed,jdbcType=BIT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="userToken != null">
+        user_token = #{userToken,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarPath != null">
+        avatar_path = #{avatarPath,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordReset != null">
+        password_reset = #{passwordReset,jdbcType=BIT},
+      </if>
+      <if test="passwordResetCode != null">
+        password_reset_code = #{passwordResetCode,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordResetCodeExpiryDate != null">
+        password_reset_code_expiry_date = #{passwordResetCodeExpiryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="signature != null">
+        signature = #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null">
+        degree = #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordX != null">
+        password_x = #{passwordX,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="io.swagger.mybatis.Account">
+    update account
+    set account_name = #{accountName,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      sms_confirm_code = #{smsConfirmCode,jdbcType=VARCHAR},
+      sms_confirm_code_expiry_date = #{smsConfirmCodeExpiryDate,jdbcType=TIMESTAMP},
+      sms_confirmed = #{smsConfirmed,jdbcType=BIT},
+      status = #{status,jdbcType=VARCHAR},
+      user_token = #{userToken,jdbcType=VARCHAR},
+      avatar_path = #{avatarPath,jdbcType=VARCHAR},
+      password_reset = #{passwordReset,jdbcType=BIT},
+      password_reset_code = #{passwordResetCode,jdbcType=VARCHAR},
+      password_reset_code_expiry_date = #{passwordResetCodeExpiryDate,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=VARCHAR},
+      signature = #{signature,jdbcType=VARCHAR},
+      degree = #{degree,jdbcType=VARCHAR},
+      password_x = #{passwordX,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="io.swagger.mybatis.Account">
+    update account
+    set account_name = #{accountName,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      sms_confirm_code = #{smsConfirmCode,jdbcType=VARCHAR},
+      sms_confirm_code_expiry_date = #{smsConfirmCodeExpiryDate,jdbcType=TIMESTAMP},
+      sms_confirmed = #{smsConfirmed,jdbcType=BIT},
+      status = #{status,jdbcType=VARCHAR},
+      user_token = #{userToken,jdbcType=VARCHAR},
+      avatar_path = #{avatarPath,jdbcType=VARCHAR},
+      password_reset = #{passwordReset,jdbcType=BIT},
+      password_reset_code = #{passwordResetCode,jdbcType=VARCHAR},
+      password_reset_code_expiry_date = #{passwordResetCodeExpiryDate,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=VARCHAR},
+      signature = #{signature,jdbcType=VARCHAR},
+      degree = #{degree,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
